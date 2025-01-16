@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "391050053085",
+    "project_id": "otpsendauth",
+    "storage_bucket": "otpsendauth.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391050053085:android:ffc634ebc500d3506be234",
+        "android_client_info": {
+          "package_name": "com.nam4.otpsend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK8xIYYwjwe4yGp5meNfeDMGC_ARY7Zms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF3E0">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:text="Đăng ký"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#E65100"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:hint="Nhập Email"
+        android:backgroundTint="#FFAB91"
+        android:textColorHint="#BF360C"
+        android:layout_marginBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:hint="Nhập Mật khẩu"
+        android:inputType="textPassword"
+        android:backgroundTint="#FFAB91"
+        android:textColorHint="#BF360C"
+        android:layout_marginBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <EditText
+        android:id="@+id/editTextConfirmPassword"
+        android:hint="Xác nhận Mật khẩu"
+        android:inputType="textPassword"
+        android:backgroundTint="#FFAB91"
+        android:textColorHint="#BF360C"
+        android:layout_marginBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btnAction"
+        android:text="Đăng ký"
+        android:textColor="#FFFFFF"
+        android:background="#F57C00"
+        android:layout_marginBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:id="@+id/btnSwitch"
+        android:text="Chuyển sang Đăng nhập"
+        android:textColor="#E65100"
+        android:background="#FFE0B2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
