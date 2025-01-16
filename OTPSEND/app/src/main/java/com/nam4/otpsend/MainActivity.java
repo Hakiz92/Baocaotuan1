@@ -1,11 +1,14 @@
 package com.nam4.otpsend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,17 +19,16 @@ public class MainActivity extends AppCompatActivity {
     private Button btnAction, btnSwitch;
     private TextView textViewTitle;
 
-    private boolean isRegisterMode = true;
+    private boolean isRegisterMode = true;  // Đang ở chế độ đăng ký hay không?
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Ánh xạ các thành phần giao diện
+        // Ánh xạ View
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
@@ -34,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
         btnSwitch = findViewById(R.id.btnSwitch);
         textViewTitle = findViewById(R.id.textViewTitle);
 
-        // Xử lý khi click nút Đăng ký hoặc Đăng nhập
+        // Thay đổi màu chữ thành màu trắng
+        btnSwitch.setTextColor(getResources().getColor(android.R.color.white));
+
+        // Xử lý khi click vào nút Đăng ký / Đăng nhập
         btnAction.setOnClickListener(view -> {
             if (isRegisterMode) {
                 registerUser();
@@ -47,28 +52,32 @@ public class MainActivity extends AppCompatActivity {
         btnSwitch.setOnClickListener(view -> switchMode());
     }
 
-    // Chuyển chế độ giữa Đăng ký và Đăng nhập
     private void switchMode() {
-        isRegisterMode = !isRegisterMode;
         if (isRegisterMode) {
-            textViewTitle.setText("Đăng ký");
-            btnAction.setText("Đăng ký");
-            btnSwitch.setText("Chuyển sang Đăng nhập");
-            editTextConfirmPassword.setVisibility(EditText.VISIBLE);
-        } else {
+            isRegisterMode = false;
             textViewTitle.setText("Đăng nhập");
             btnAction.setText("Đăng nhập");
             btnSwitch.setText("Chuyển sang Đăng ký");
             editTextConfirmPassword.setVisibility(EditText.GONE);
+        } else {
+            isRegisterMode = true;
+            textViewTitle.setText("Đăng ký");
+            btnAction.setText("Đăng ký");
+            btnSwitch.setText("Chuyển sang Đăng nhập");
+            editTextConfirmPassword.setVisibility(EditText.VISIBLE);
         }
         clearForm();
     }
 
-    // Đăng ký người dùng mới
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         String confirmPassword = editTextConfirmPassword.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (!password.equals(confirmPassword)) {
             Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
@@ -78,32 +87,51 @@ public class MainActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
-                        clearForm();
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            user.sendEmailVerification().addOnCompleteListener(verifyTask -> {
+                                if (verifyTask.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "Email xác thực đã được gửi. Vui lòng kiểm tra hộp thư!", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Không thể gửi email xác thực: " + verifyTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     } else {
-                        Toast.makeText(this, "Đăng ký thất bại: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Lỗi: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    // Đăng nhập người dùng
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(this, "Chào mừng: " + user.getEmail(), Toast.LENGTH_SHORT).show();
-                        clearForm();
+                        if (user != null && user.isEmailVerified()) {
+                            Toast.makeText(getApplicationContext(), "Đăng nhập thành công: " + user.getEmail(), Toast.LENGTH_LONG).show();
+
+                            // Chuyển sang màn hình mới (HomeActivity)
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish(); // Đóng màn hình hiện tại
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Vui lòng xác thực email trước khi đăng nhập!", Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    // Xóa dữ liệu sau khi xử lý xong
     private void clearForm() {
         editTextEmail.setText("");
         editTextPassword.setText("");

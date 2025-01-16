@@ -1,71 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="32dp"
-    android:gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF3E0">
+    tools:context=".MainActivity"
+    android:background="#EDE7F6">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:text="Đăng ký"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="#E65100"
-        android:layout_marginBottom="16dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:text="Đăng ký"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#6A1B9A"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:hint="Nhập Email"
-        android:backgroundTint="#FFAB91"
-        android:textColorHint="#BF360C"
-        android:layout_marginBottom="12dp"
+
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:hint="Nhập Email"
+            android:inputType="textEmailAddress"
+            android:backgroundTint="#8E24AA"
+        android:textColorHint="#6A1B9A"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+
+        <!-- Mật khẩu -->
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:hint="Nhập Mật khẩu"
+            android:inputType="textPassword"
+            android:backgroundTint="#8E24AA"
+            android:textColorHint="#6A1B9A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
 
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:hint="Nhập Mật khẩu"
-        android:inputType="textPassword"
-        android:backgroundTint="#FFAB91"
-        android:textColorHint="#BF360C"
-        android:layout_marginBottom="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/editTextConfirmPassword"
+            android:hint="Xác nhận Mật khẩu"
+            android:inputType="textPassword"
+            android:backgroundTint="#8E24AA"
+            android:textColorHint="#6A1B9A"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
 
 
-    <EditText
-        android:id="@+id/editTextConfirmPassword"
-        android:hint="Xác nhận Mật khẩu"
-        android:inputType="textPassword"
-        android:backgroundTint="#FFAB91"
-        android:textColorHint="#BF360C"
-        android:layout_marginBottom="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnAction"
+            android:text="Đăng ký"
+            android:textColor="#FFFFFF"
+            android:background="#6A1B9A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" />
 
+        <Button
+            android:id="@+id/btnSwitch"
+            android:text="Chuyển sang Đăng nhập"
+            android:textColor="#6A1B9A"
+            android:background="#D1C4E9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnAction"
-        android:text="Đăng ký"
-        android:textColor="#FFFFFF"
-        android:background="#F57C00"
-        android:layout_marginBottom="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-    <Button
-        android:id="@+id/btnSwitch"
-        android:text="Chuyển sang Đăng nhập"
-        android:textColor="#E65100"
-        android:background="#FFE0B2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
